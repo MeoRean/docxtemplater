@@ -37,7 +37,16 @@ function render(options) {
 		.reduce(function (parts, { value }) {
 			if (value instanceof Array) {
 				for (let i = 0, len = value.length; i < len; i++) {
-					parts.push(value[i]);
+					if (value[i].substring(0, 5) === "@REV@") {
+						const arr = value[i].split("|---|");
+						parts.push(
+							`<w:ins w:author="${arr[2]}" w:date="${arr[3]}"><w:r><w:t>`
+						);
+						parts.push(arr[1]);
+						parts.push("</w:t></w:r></w:ins>");
+					} else {
+						parts.push(value[i]);
+					}
 				}
 			} else if (value) {
 				parts.push(value);
